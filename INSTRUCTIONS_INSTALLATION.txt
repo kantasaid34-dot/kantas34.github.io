@@ -1,0 +1,114 @@
+CALCUL RÉELS — PACKAGE PWA INSTALLABLE ANDROID (SMARTPHONE / TABLETTE)
+
+IMPORTANT
+- Cette application est une PWA (Progressive Web App).
+- Elle s'installe sur Android via Chrome/Edge ("Ajouter à l’écran d’accueil").
+- Pour que l'installation PWA fonctionne (service worker), il faut un contexte sécurisé :
+  * HTTPS (recommandé), OU
+  * localhost (127.0.0.1) uniquement.
+  Un simple "fichier local" (file://) ou une IP LAN en http:// ne permet pas toujours l'installation.
+
+CONTENU DU DOSSIER
+- index.html : l'interface
+- styles.css : le style
+- app.js : la logique du jeu (100% offline)
+- manifest.json : métadonnées PWA
+- sw.js : cache offline
+- icons/ : icônes
+
+============================================================
+MÉTHODE 1 (RECOMMANDÉE) : INSTALLATION VIA GITHUB PAGES (HTTPS)
+============================================================
+Prérequis : un compte GitHub gratuit + un PC (ou Android avec navigateur).
+
+1) Créer un dépôt
+- Aller sur https://github.com
+- New repository
+- Nom : calcul-reels
+- Cocher "Public"
+- Create
+
+2) Mettre les fichiers
+- Sur la page du dépôt : "Add file" > "Upload files"
+- Glisser-déposer TOUT le contenu de ce dossier (index.html, app.js, styles.css, manifest.json, sw.js, dossier icons/)
+- Commit changes
+
+3) Activer GitHub Pages
+- Settings (du dépôt) > Pages
+- Source : "Deploy from a branch"
+- Branch : "main" et dossier "/root"
+- Save
+
+4) Récupérer l'URL HTTPS
+- Toujours dans Settings > Pages
+- Attendre 1 à 2 minutes
+- Copier l'URL du type : https://<ton_user>.github.io/calcul-reels/
+
+5) Installer sur Android
+- Sur le téléphone/tablette : ouvrir Chrome
+- Ouvrir l'URL HTTPS
+- Menu ⋮ (en haut à droite)
+- "Ajouter à l'écran d'accueil" / "Installer l'application"
+- Valider
+
+6) Utilisation
+- Lancer l’app depuis l’icône créée.
+- Fonctionne ensuite hors-ligne (les fichiers sont en cache).
+
+============================================================
+MÉTHODE 2 : INSTALLATION SANS PC (ANDROID + TERMUX = LOCALHOST)
+============================================================
+Prérequis : Android + application Termux.
+
+1) Installer Termux
+- Depuis F-Droid (recommandé) : https://f-droid.org/packages/com.termux/
+
+2) Copier le dossier sur le téléphone
+- Mettre ce dossier "CalculReels_PWA_Android" dans "Téléchargements" par exemple.
+
+3) Ouvrir Termux et installer Python
+- Dans Termux :
+  pkg update
+  pkg install python
+
+4) Aller dans le dossier
+- Exemple :
+  cd ~/storage/downloads/CalculReels_PWA_Android
+  (si accès storage : taper "termux-setup-storage" une fois)
+
+5) Lancer un serveur local
+- Dans Termux :
+  python -m http.server 8000
+
+6) Ouvrir l'app via localhost
+- Dans Chrome : http://127.0.0.1:8000/
+
+7) Installer
+- Menu ⋮
+- "Ajouter à l'écran d'accueil" / "Installer"
+
+Remarque : tant que Termux tourne avec le serveur, l'app est accessible.
+Pour un usage 100% offline, la méthode 1 (HTTPS) est la plus simple.
+
+============================================================
+MÉTHODE 3 (DÉPANNAGE) : UTILISATION SANS INSTALLATION
+============================================================
+- Ouvrir index.html dans un navigateur.
+- Attention : hors HTTPS/localhost, l'installation PWA peut ne pas apparaître.
+
+============================================================
+PARAMÈTRES DU JEU
+============================================================
+- Niveau 1 : réels [-10; +10], pas 0,1
+- Niveau 2 : réels [-20; +20], pas 0,1
+- Niveau 3 : réels [-100; +100], pas 0,01
+- Opérations : +, −, ×, ÷ (division évite un diviseur proche de 0)
+- Correction : tolérance = max(0,01 ; 0,5% × |résultat|)
+
+============================================================
+PERSONNALISATION RAPIDE
+============================================================
+- Modifier les plages/precision : fichier app.js (fonctions rangeForLevel, stepForLevel)
+- Modifier la tolérance : app.js (fonction nearlyEqual)
+
+FIN

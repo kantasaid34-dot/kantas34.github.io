@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calcul Réels</title>
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div>
+        <h1>Calcul Réels</h1>
+        <p class="sub">Jeu de calcul avancé (résultats réels) — fonctionne hors‑ligne après installation.</p>
+      </div>
+      <div class="pill" id="pill">Niveau 1</div>
+    </header>
+
+    <section class="card">
+      <h2>Niveau</h2>
+      <div class="levels" role="radiogroup" aria-label="Niveau de difficulté">
+        <label class="lvl">
+          <input type="radio" name="level" value="1" checked />
+          <div>
+            <strong>Niveau 1</strong>
+            <span>Réels de −10 à +10 (pas 0,1)</span>
+          </div>
+        </label>
+        <label class="lvl">
+          <input type="radio" name="level" value="2" />
+          <div>
+            <strong>Niveau 2</strong>
+            <span>Réels de −20 à +20 (pas 0,1)</span>
+          </div>
+        </label>
+        <label class="lvl">
+          <input type="radio" name="level" value="3" />
+          <div>
+            <strong>Niveau 3</strong>
+            <span>Réels de −100 à +100 (pas 0,01)</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Calcul</h2>
+      <div class="expr" id="expr">—</div>
+      <div class="hint" id="hint">Choisis un niveau puis appuie sur “Nouveau calcul”.</div>
+
+      <div class="row">
+        <input id="answer" type="text" inputmode="decimal" placeholder="Ta réponse (ex : 3.14 ou 3,14)" autocomplete="off" />
+        <div class="btns">
+          <button class="btn secondary" id="newBtn">Nouveau calcul</button>
+          <button class="btn primary" id="checkBtn">Vérifier</button>
+        </div>
+      </div>
+
+      <div class="result" id="result"><span class="muted">Le verdict apparaîtra ici.</span></div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Score</div>
+          <div class="v" id="score">0</div>
+        </div>
+        <div class="stat">
+          <div class="k">Série</div>
+          <div class="v" id="streak">0</div>
+        </div>
+        <div class="stat">
+          <div class="k">Total</div>
+          <div class="v" id="total">0</div>
+        </div>
+      </div>
+
+      <details class="details">
+        <summary>ℹ️ Tolérance de correction (pour les réels)</summary>
+        <p>
+          Le correcteur accepte une petite tolérance :
+          <code>erreur ≤ max(0,01 ; 0,5% × |résultat|)</code>.
+          C’est normal car les divisions produisent souvent des décimales.
+        </p>
+      </details>
+    </section>
+
+    <footer class="foot">
+      <span>Astuce : appuie sur Entrée pour vérifier.</span>
+      <button class="link" id="resetBtn" title="Réinitialiser score">Réinitialiser</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // Enregistrement du Service Worker (PWA)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>
