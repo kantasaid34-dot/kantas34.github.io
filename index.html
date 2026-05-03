@@ -51,7 +51,12 @@
       <div class="hint" id="hint">Choisis un niveau puis appuie sur “Nouveau calcul”.</div>
 
       <div class="row">
-        <input id="answer" type="text" inputmode="decimal" placeholder="Ta réponse (ex : 3.14 ou 3,14)" autocomplete="off" />
+        <div class="answerRow">
+          <!-- NOTE: inputmode=decimal peut ne pas afficher le signe '-' sur certains claviers Android.
+               On ajoute donc un bouton ± pour forcer le signe négatif/positif. -->
+          <button class="signBtn" id="signBtn" type="button" aria-label="Changer le signe">±</button>
+          <input id="answer" type="text" inputmode="decimal" pattern="[-0-9.,]*" placeholder="Ta réponse (ex : -3.14 ou -3,14)" autocomplete="off" />
+        </div>
         <div class="btns">
           <button class="btn secondary" id="newBtn">Nouveau calcul</button>
           <button class="btn primary" id="checkBtn">Vérifier</button>

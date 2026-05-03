@@ -1,5 +1,4 @@
 // Calcul Réels — logique du jeu (100% offline)
-
 const $ = (id) => document.getElementById(id);
 
 const state = {
@@ -44,7 +43,6 @@ function compute(a,b,op){
 }
 
 function fmt(v, decimals=2){
-  // Affiche avec décimales fixes mais retire les zéros inutiles
   const s = v.toFixed(decimals);
   return s.replace(/\.?0+$/,'');
 }
@@ -124,9 +122,42 @@ function newProblem(){
   $('result').innerHTML = '<span class="muted">Nouveau calcul généré ✅</span>';
 }
 
+function toggleSign(){
+  const el = $('answer');
+  let v = el.value.trim();
+  if(!v){
+    el.value = '-';
+    el.focus();
+    return;
+  }
+  // Si déjà négatif, on enlève le '-'
+  if(v.startsWith('-')){
+    v = v.slice(1);
+  } else {
+    v = '-' + v;
+  }
+  el.value = v;
+  el.focus();
+  // Place le curseur en fin
+  try { el.setSelectionRange(el.value.length, el.value.length); } catch(e) {}
+}
+
+function sanitizeInput(){
+  // Autorise uniquement: chiffres, un seul signe '-' au début, '.' ou ','
+  const el = $('answer');
+  let v = el.value;
+  // supprime caractères interdits
+  v = v.replace(/[^0-9.,-]/g, '');
+  // ne garder qu'un '-' et uniquement au début
+  v = v.replace(/(?!^)-/g, '');
+  // si plusieurs '-' en début -> un seul
+  v = v.replace(/^-{2,}/g, '-');
+  el.value = v;
+}
+
 function check(){
   const raw = $('answer').value.trim();
-  if(!raw){
+  if(!raw || raw === '-'){
     $('result').innerHTML = '<span class="bad">❌ Entre une réponse.</span>';
     return;
   }
@@ -173,7 +204,12 @@ setPill();
 $('newBtn').addEventListener('click', newProblem);
 $('checkBtn').addEventListener('click', check);
 $('resetBtn').addEventListener('click', resetStats);
-$('answer').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') check(); });
+$('signBtn').addEventListener('click', toggleSign);
+$('answer').addEventListener('input', sanitizeInput);
+$('answer').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') check();
+  // Permet de taper '-' même si clavier ne l'affiche pas : certains claviers le génèrent via touche dédiée
+});
 
 document.querySelectorAll('input[name="level"]').forEach(r => {
   r.addEventListener('change', () => {
