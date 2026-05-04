@@ -1,4 +1,7 @@
 // Calcul — entiers relatifs (opérandes) → résultat réel arrondi au dixième
+// Changement demandé: le verdict (Bon/Faux + résultat) reste affiché même après génération du prochain calcul.
+// Il est remplacé uniquement au prochain clic sur “Vérifier”.
+
 const $ = (id) => document.getElementById(id);
 
 const state = {
@@ -7,7 +10,7 @@ const state = {
   b: 0,
   op: '+',
   exact: 0,
-  result: 0, // arrondi au dixième
+  result: 0,
   score: 0,
   streak: 0,
   total: 0,
@@ -42,7 +45,7 @@ function opSymbol(op){
 }
 
 function round1(x){
-  return Math.round(x * 10) / 10; // au dixième
+  return Math.round(x * 10) / 10;
 }
 
 function fmt1(x){
@@ -52,7 +55,7 @@ function fmt1(x){
 
 function loadStats(){
   try{
-    const raw = localStorage.getItem('calcul_entiers_auto_stats');
+    const raw = localStorage.getItem('calcul_entiers_persist_stats');
     if(!raw) return;
     const obj = JSON.parse(raw);
     state.score = obj.score ?? 0;
@@ -62,7 +65,7 @@ function loadStats(){
 }
 
 function saveStats(){
-  localStorage.setItem('calcul_entiers_auto_stats', JSON.stringify({
+  localStorage.setItem('calcul_entiers_persist_stats', JSON.stringify({
     score: state.score,
     streak: state.streak,
     total: state.total,
@@ -84,12 +87,11 @@ function currentLevel(){
   return r ? parseInt(r.value,10) : 1;
 }
 
-function newProblem(opts = {silent:false}){
+function generateProblem(){
   state.level = currentLevel();
   setPill();
 
   const [minV, maxV] = rangeForLevel(state.level);
-
   state.op = pickOp();
   state.a = randInt(minV, maxV);
   state.b = randInt(minV, maxV);
@@ -107,10 +109,13 @@ function newProblem(opts = {silent:false}){
   $('hint').textContent = 'Résultat arrondi au dixième (1 décimale).';
   $('answer').value = '';
   $('answer').focus();
+}
 
-  if(!opts.silent){
-    $('result').innerHTML = '<span class="muted">Nouveau calcul ✅</span>';
-  }
+function newProblemFromButton(){
+  // Bouton “Nouveau calcul”: on passe au calcul suivant, MAIS on ne touche pas au verdict.
+  generateProblem();
+  // On indique juste qu'on a changé le calcul (sans effacer le verdict)
+  $('hint').textContent = 'Nouveau calcul proposé (le verdict précédent reste affiché).';
 }
 
 function toggleSign(){
@@ -172,12 +177,13 @@ function check(){
   saveStats();
   renderStats();
 
-  // Affiche le feedback brièvement, puis propose automatiquement un nouveau calcul
+  // 1) Afficher le verdict
   showFeedback(ok, userRounded);
 
+  // 2) Proposer automatiquement un nouveau calcul, MAIS ne pas modifier le verdict.
   setTimeout(() => {
-    newProblem({silent:true});
-    $('result').innerHTML = '<span class="muted">Nouveau calcul ✅</span>';
+    generateProblem();
+    $('hint').textContent = 'Nouveau calcul proposé. (Le verdict précédent reste affiché jusqu’au prochain “Vérifier”.)';
   }, 900);
 }
 
@@ -195,14 +201,13 @@ loadStats();
 renderStats();
 setPill();
 
-// Proposer un premier calcul dès l'ouverture
+// Premier calcul dès l'ouverture (ne modifie pas le verdict initial)
 window.addEventListener('load', () => {
-  newProblem({silent:true});
-  $('result').innerHTML = '<span class="muted">Tape ta réponse puis “Vérifier”.</span>';
+  generateProblem();
 });
 
 // Events
-$('newBtn').addEventListener('click', () => newProblem());
+$('newBtn').addEventListener('click', newProblemFromButton);
 $('checkBtn').addEventListener('click', check);
 $('resetBtn').addEventListener('click', resetStats);
 $('signBtn').addEventListener('click', toggleSign);
@@ -211,10 +216,8 @@ $('answer').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') check(); })
 
 document.querySelectorAll('input[name="level"]').forEach(r => {
   r.addEventListener('change', () => {
-    state.level = currentLevel();
-    setPill();
-    // On génère immédiatement un nouveau calcul quand on change de niveau
-    newProblem({silent:true});
-    $('result').innerHTML = '<span class="muted">Niveau changé : nouveau calcul ✅</span>';
+    // On change de niveau: on génère un nouveau calcul immédiatement.
+    generateProblem();
+    $('hint').textContent = 'Niveau changé : nouveau calcul proposé (verdict précédent conservé).';
   });
 });

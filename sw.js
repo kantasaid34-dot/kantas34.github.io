@@ -1,5 +1,5 @@
 // Service Worker - cache offline
-const CACHE = 'calcul-entiers-auto-v1';
+const CACHE = 'calcul-entiers-persist-v1';
 const ASSETS = [
   './',
   './index.html',

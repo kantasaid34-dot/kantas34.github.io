@@ -1,19 +1,21 @@
-CALCUL — ENTIERS AUTO (opérandes entiers, résultat arrondi)
+CALCUL — ENTIERS AUTO (VERDICT PERSISTANT)
 
-NOUVEAUTÉS (par rapport au package précédent)
-1) Un premier calcul est généré automatiquement dès l'ouverture de la page.
-2) Après chaque vérification, un nouveau calcul est proposé automatiquement (après ~0,9 s).
-3) Le bouton « Nouveau calcul » reste présent uniquement pour "passer"/changer le calcul.
+CHANGEMENT DEMANDÉ
+- Après “Vérifier”, un nouveau calcul est proposé automatiquement.
+- MAIS le verdict (✅ Bon / ❌ Faux + résultat) reste affiché même après ce nouveau calcul.
+- Le verdict ne change qu’au prochain clic sur “Vérifier”.
+
+BOUTON « NOUVEAU CALCUL »
+- Sert uniquement à passer/changer le calcul.
+- Ne supprime pas le verdict précédent.
 
 RÈGLES
-- A et B sont des entiers relatifs selon le niveau :
-  Niveau 1: -10..10 ; Niveau 2: -20..20 ; Niveau 3: -100..100
-- Opérations: +, −, ×, ÷ ; division: b != 0
+- A et B entiers relatifs selon le niveau.
 - Résultat officiel = calcul réel puis arrondi au dixième.
-- La réponse utilisateur est aussi arrondie au dixième avant comparaison.
+- Réponse utilisateur arrondie au dixième avant comparaison.
 
 MISE EN LIGNE (GITHUB PAGES)
-1) Remplacer les fichiers du dépôt par ceux de ce dossier (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
+1) Remplacer les fichiers du dépôt par ceux de ce package (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
 2) Commit
 3) Settings > Pages > Deploy from a branch > main /(root)
 4) Ouvrir l'URL HTTPS sur Android
@@ -21,6 +23,6 @@ MISE EN LIGNE (GITHUB PAGES)
 
 MISE À JOUR SI DÉJÀ INSTALLÉ
 - Ouvrir l'URL dans Chrome puis recharger 1-2 fois.
-- Si la vieille version persiste: effacer les données du site (Chrome > Paramètres > Paramètres du site > Stockage).
+- Si l'ancienne version persiste: effacer les données du site (Chrome > Paramètres > Paramètres du site > Stockage).
 
 FIN
