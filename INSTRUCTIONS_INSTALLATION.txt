@@ -1,25 +1,30 @@
-CALCUL RÉELS — PACKAGE PWA ANDROID (v2) — SAISIE NÉGATIVE CORRIGÉE
+CALCUL — ENTIERS (OPÉRANDES) → RÉSULTAT ARRONDI AU DIXIÈME
 
-NOUVEAUTÉ IMPORTANTE
-- Certains claviers Android en mode "decimal" n'affichent pas le signe moins ( - ).
-- Cette version ajoute un bouton « ± » à côté du champ de saisie : il permet de mettre/enlever le signe négatif.
-- Tu peux donc répondre aux calculs dont le résultat est négatif.
+CE QUI CHANGE
+- Les deux nombres A et B proposés sont des entiers relatifs :
+  * Niveau 1 : -10 à +10
+  * Niveau 2 : -20 à +20
+  * Niveau 3 : -100 à +100
+- Les opérations : +, −, ×, ÷
+- La division évite b = 0.
+- Le programme calcule le résultat réel puis l'arrondit à 1 chiffre après la virgule (au dixième).
+- La correction arrondit aussi ta réponse au dixième avant de comparer.
 
-INSTALLATION (RAPIDE)
-1) Héberge le dossier sur GitHub Pages (HTTPS) (recommandé)
-2) Ouvre l'URL sur Android
-3) Menu ⋮ > Installer / Ajouter à l'écran d'accueil
+SAISIE DES NÉGATIFS
+- Certains claviers Android n'affichent pas le signe '-'.
+- Utilise le bouton « ± » à côté du champ.
 
-DÉTAILS D'INSTALLATION (PAS À PAS)
-Voir les mêmes étapes que précédemment :
-- Upload des fichiers dans un dépôt GitHub public
-- Settings > Pages > Deploy from a branch > main /(root)
-- URL : https://<user>.github.io/<repo>/
+MISE EN LIGNE (GITHUB PAGES)
+1) Ouvrir ton dépôt GitHub existant
+2) Remplacer les fichiers par ceux de ce package (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
+3) Commit
+4) Settings > Pages > main / (root)
+5) Ouvrir l'URL HTTPS sur Android
+6) Menu ⋮ > Installer / Ajouter à l'écran d'accueil
 
-REMARQUE CACHE
-- Le Service Worker utilise un cache "calculreels-v2".
-- Si tu avais déjà installé une ancienne version, il faut parfois :
-  * Recharger la page 1-2 fois
-  * ou supprimer les données du site (Chrome > Paramètres > Stockage)
+NOTE MISE À JOUR
+- Si une ancienne PWA est déjà installée :
+  * Ouvre l'URL dans Chrome et recharge 1-2 fois
+  * si besoin : Chrome > Paramètres > Paramètres du site > Stockage > effacer pour github.io
 
 FIN
