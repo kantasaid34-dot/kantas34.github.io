@@ -1,30 +1,26 @@
-CALCUL — ENTIERS (OPÉRANDES) → RÉSULTAT ARRONDI AU DIXIÈME
+CALCUL — ENTIERS AUTO (opérandes entiers, résultat arrondi)
 
-CE QUI CHANGE
-- Les deux nombres A et B proposés sont des entiers relatifs :
-  * Niveau 1 : -10 à +10
-  * Niveau 2 : -20 à +20
-  * Niveau 3 : -100 à +100
-- Les opérations : +, −, ×, ÷
-- La division évite b = 0.
-- Le programme calcule le résultat réel puis l'arrondit à 1 chiffre après la virgule (au dixième).
-- La correction arrondit aussi ta réponse au dixième avant de comparer.
+NOUVEAUTÉS (par rapport au package précédent)
+1) Un premier calcul est généré automatiquement dès l'ouverture de la page.
+2) Après chaque vérification, un nouveau calcul est proposé automatiquement (après ~0,9 s).
+3) Le bouton « Nouveau calcul » reste présent uniquement pour "passer"/changer le calcul.
 
-SAISIE DES NÉGATIFS
-- Certains claviers Android n'affichent pas le signe '-'.
-- Utilise le bouton « ± » à côté du champ.
+RÈGLES
+- A et B sont des entiers relatifs selon le niveau :
+  Niveau 1: -10..10 ; Niveau 2: -20..20 ; Niveau 3: -100..100
+- Opérations: +, −, ×, ÷ ; division: b != 0
+- Résultat officiel = calcul réel puis arrondi au dixième.
+- La réponse utilisateur est aussi arrondie au dixième avant comparaison.
 
 MISE EN LIGNE (GITHUB PAGES)
-1) Ouvrir ton dépôt GitHub existant
-2) Remplacer les fichiers par ceux de ce package (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
-3) Commit
-4) Settings > Pages > main / (root)
-5) Ouvrir l'URL HTTPS sur Android
-6) Menu ⋮ > Installer / Ajouter à l'écran d'accueil
+1) Remplacer les fichiers du dépôt par ceux de ce dossier (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
+2) Commit
+3) Settings > Pages > Deploy from a branch > main /(root)
+4) Ouvrir l'URL HTTPS sur Android
+5) Menu ⋮ > Installer / Ajouter à l'écran d'accueil
 
-NOTE MISE À JOUR
-- Si une ancienne PWA est déjà installée :
-  * Ouvre l'URL dans Chrome et recharge 1-2 fois
-  * si besoin : Chrome > Paramètres > Paramètres du site > Stockage > effacer pour github.io
+MISE À JOUR SI DÉJÀ INSTALLÉ
+- Ouvrir l'URL dans Chrome puis recharger 1-2 fois.
+- Si la vieille version persiste: effacer les données du site (Chrome > Paramètres > Paramètres du site > Stockage).
 
 FIN

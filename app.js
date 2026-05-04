@@ -42,19 +42,17 @@ function opSymbol(op){
 }
 
 function round1(x){
-  // arrondi au dixième
-  return Math.round(x * 10) / 10;
+  return Math.round(x * 10) / 10; // au dixième
 }
 
 function fmt1(x){
-  // affichage avec 1 décimale, mais on laisse "0" si entier
   const s = x.toFixed(1);
   return s.replace(/\.0$/,'');
 }
 
 function loadStats(){
   try{
-    const raw = localStorage.getItem('calcul_entiers_stats');
+    const raw = localStorage.getItem('calcul_entiers_auto_stats');
     if(!raw) return;
     const obj = JSON.parse(raw);
     state.score = obj.score ?? 0;
@@ -64,7 +62,7 @@ function loadStats(){
 }
 
 function saveStats(){
-  localStorage.setItem('calcul_entiers_stats', JSON.stringify({
+  localStorage.setItem('calcul_entiers_auto_stats', JSON.stringify({
     score: state.score,
     streak: state.streak,
     total: state.total,
@@ -86,7 +84,7 @@ function currentLevel(){
   return r ? parseInt(r.value,10) : 1;
 }
 
-function newProblem(){
+function newProblem(opts = {silent:false}){
   state.level = currentLevel();
   setPill();
 
@@ -97,7 +95,6 @@ function newProblem(){
   state.b = randInt(minV, maxV);
 
   if(state.op === '/'){
-    // éviter division par 0
     while(state.b === 0){
       state.b = randInt(minV, maxV);
     }
@@ -107,10 +104,13 @@ function newProblem(){
   state.result = round1(state.exact);
 
   $('expr').textContent = `${state.a} ${opSymbol(state.op)} ${state.b} = ?`;
-  $('hint').textContent = 'Le résultat est arrondi au dixième (1 chiffre après la virgule).';
+  $('hint').textContent = 'Résultat arrondi au dixième (1 décimale).';
   $('answer').value = '';
   $('answer').focus();
-  $('result').innerHTML = '<span class="muted">Nouveau calcul généré ✅</span>';
+
+  if(!opts.silent){
+    $('result').innerHTML = '<span class="muted">Nouveau calcul ✅</span>';
+  }
 }
 
 function toggleSign(){
@@ -137,6 +137,14 @@ function sanitizeInput(){
   el.value = v;
 }
 
+function showFeedback(ok, userRounded){
+  if(ok){
+    $('result').innerHTML = `<div><span class="ok">✅ Bon</span><div class="small">Résultat : ${fmt1(state.result)}</div></div>`;
+  } else {
+    $('result').innerHTML = `<div><span class="bad">❌ Faux</span><div class="small">Ta réponse (arrondie) : ${fmt1(userRounded)} • Correct : ${fmt1(state.result)}</div></div>`;
+  }
+}
+
 function check(){
   const raw = $('answer').value.trim();
   if(!raw || raw === '-'){
@@ -151,21 +159,26 @@ function check(){
 
   state.total += 1;
 
-  // On arrondit aussi la réponse au dixième avant comparaison
   const userRounded = round1(user);
   const ok = (userRounded === state.result);
 
   if(ok){
     state.score += 1;
     state.streak += 1;
-    $('result').innerHTML = `<div><span class="ok">✅ Bon</span><div class="small">Résultat : ${fmt1(state.result)}</div></div>`;
   } else {
     state.streak = 0;
-    $('result').innerHTML = `<div><span class="bad">❌ Faux</span><div class="small">Ta réponse (arrondie) : ${fmt1(userRounded)} • Correct : ${fmt1(state.result)}</div></div>`;
   }
 
   saveStats();
   renderStats();
+
+  // Affiche le feedback brièvement, puis propose automatiquement un nouveau calcul
+  showFeedback(ok, userRounded);
+
+  setTimeout(() => {
+    newProblem({silent:true});
+    $('result').innerHTML = '<span class="muted">Nouveau calcul ✅</span>';
+  }, 900);
 }
 
 function resetStats(){
@@ -177,11 +190,19 @@ function resetStats(){
   $('result').innerHTML = '<span class="muted">Score réinitialisé.</span>';
 }
 
+// Init
 loadStats();
 renderStats();
 setPill();
 
-$('newBtn').addEventListener('click', newProblem);
+// Proposer un premier calcul dès l'ouverture
+window.addEventListener('load', () => {
+  newProblem({silent:true});
+  $('result').innerHTML = '<span class="muted">Tape ta réponse puis “Vérifier”.</span>';
+});
+
+// Events
+$('newBtn').addEventListener('click', () => newProblem());
 $('checkBtn').addEventListener('click', check);
 $('resetBtn').addEventListener('click', resetStats);
 $('signBtn').addEventListener('click', toggleSign);
@@ -192,6 +213,8 @@ document.querySelectorAll('input[name="level"]').forEach(r => {
   r.addEventListener('change', () => {
     state.level = currentLevel();
     setPill();
-    $('hint').textContent = 'Appuie sur “Nouveau calcul”.';
+    // On génère immédiatement un nouveau calcul quand on change de niveau
+    newProblem({silent:true});
+    $('result').innerHTML = '<span class="muted">Niveau changé : nouveau calcul ✅</span>';
   });
 });

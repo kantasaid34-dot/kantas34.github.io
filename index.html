@@ -13,7 +13,7 @@
     <header class="top">
       <div>
         <h1>Calcul — Entiers</h1>
-        <p class="sub">Nombres proposés entiers relatifs • Résultat calculé puis <b>arrondi à 1 décimale</b>.</p>
+        <p class="sub">Entiers relatifs pour A et B • résultat calculé puis <b>arrondi à 1 décimale</b>. Nouveau calcul auto après vérification.</p>
       </div>
       <div class="pill" id="pill">Niveau 1</div>
     </header>
@@ -48,7 +48,7 @@
     <section class="card">
       <h2>Calcul</h2>
       <div class="expr" id="expr">—</div>
-      <div class="hint" id="hint">Choisis un niveau puis appuie sur “Nouveau calcul”.</div>
+      <div class="hint" id="hint">Un calcul est proposé automatiquement.</div>
 
       <div class="row">
         <div class="answerRow">
@@ -56,12 +56,12 @@
           <input id="answer" type="text" inputmode="decimal" pattern="[-0-9.,]*" placeholder="Ta réponse (ex : -3.1 ou -3,1)" autocomplete="off" />
         </div>
         <div class="btns">
-          <button class="btn secondary" id="newBtn">Nouveau calcul</button>
+          <button class="btn secondary" id="newBtn" title="Générer un autre calcul">Nouveau calcul</button>
           <button class="btn primary" id="checkBtn">Vérifier</button>
         </div>
       </div>
 
-      <div class="result" id="result"><span class="muted">Le verdict apparaîtra ici.</span></div>
+      <div class="result" id="result"><span class="muted">Tape ta réponse puis “Vérifier”.</span></div>
 
       <div class="stats">
         <div class="stat">
@@ -81,15 +81,14 @@
       <details class="details">
         <summary>ℹ️ Règle d’arrondi</summary>
         <p>
-          Le résultat « officiel » est calculé puis <b>arrondi à 1 chiffre après la virgule</b>
-          (arrondi classique au dixième). Tu peux saisir 0, 1 ou 2 décimales : la correction
-          arrondit aussi ta réponse au dixième avant de comparer.
+          Le résultat « officiel » est calculé puis <b>arrondi au dixième</b> (1 chiffre après la virgule).
+          La correction arrondit aussi ta réponse au dixième avant de comparer.
         </p>
       </details>
     </section>
 
     <footer class="foot">
-      <span>Astuce : appuie sur Entrée pour vérifier.</span>
+      <span>Astuce : Entrée = vérifier • ± = changer le signe</span>
       <button class="link" id="resetBtn" title="Réinitialiser score">Réinitialiser</button>
     </footer>
   </main>

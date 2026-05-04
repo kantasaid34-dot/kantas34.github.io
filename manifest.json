@@ -1,12 +1,12 @@
 {
-  "name": "Calcul — Entiers",
+  "name": "Calcul — Entiers Auto",
   "short_name": "Calcul",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0ea5e9",
   "theme_color": "#2563eb",
-  "description": "Jeu de calcul : opérandes entiers relatifs, résultat arrondi au dixième.",
+  "description": "Jeu de calcul : opérandes entiers relatifs, résultat arrondi au dixième, nouveau calcul automatique.",
   "icons": [
     {
       "src": "icons/icon-192.png",
